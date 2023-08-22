@@ -5,6 +5,7 @@ export interface Organization {
     cnpj?: string;
     createdAt?: Date;
     updatedAt?: Date;
+    categoryReview?: string;
 }
 
 export interface OrganizationsList {
