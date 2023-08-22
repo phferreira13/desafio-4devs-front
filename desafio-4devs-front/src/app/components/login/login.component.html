@@ -1,0 +1,21 @@
+<div class="login-container">
+    <mat-card class="login-card">
+      <mat-card-header>
+        <mat-card-title>Login</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form (ngSubmit)="onSubmit()">
+          <mat-form-field>
+            <input matInput placeholder="Email" type="email" name="email" required [formControl]="emailFormControl" [(ngModel)]="email">
+            <mat-error *ngIf="emailFormControl.hasError('required')">Email é obrigatório</mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Senha" type="password" [formControl]="passwordFormControl" name="password" required [(ngModel)]="password">
+            <mat-error *ngIf="passwordFormControl.hasError('required')">Senha é obrigatória</mat-error>
+          </mat-form-field>
+          <button mat-raised-button color="primary">Login</button>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  
