@@ -11,6 +11,8 @@ API response model for review
       "resultColorDescription": "string"
 */
 
+import { Organization } from "./organization.model";
+
 export interface ReviewResult {
     referenceMonth?: string;
     referenceYear?: string;
@@ -50,15 +52,15 @@ API Body model for review
 }
 */
 
-export interface OrganizationReview {
+export interface OrganizationReview extends Organization {
     organizationId?: number;
     comment?: string;
     rating?: number;
 }
 
-export interface Review {
+export class Review {
     userId?: number;
-    referenceMonth?: string;
-    referenceYear?: string;
-    organizationReviews?: OrganizationReview[];
+    referenceMonth: string = '';
+    referenceYear: string = '';
+    organizationReviews: OrganizationReview[] = [];
 }

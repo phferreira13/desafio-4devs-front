@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Organization } from 'src/app/models/organization.model';
 import { ResultColor, ReviewResult } from 'src/app/models/review.model';
+import { UserModel } from 'src/app/models/user.model';
+import { OrganizationService } from 'src/app/services/organization.service';
 import { ReviewService } from 'src/app/services/review.service';
+import { UserService } from 'src/app/services/user.service';
 import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 
 @Component({
@@ -11,7 +15,8 @@ import { ReviewDialogComponent } from './review-dialog/review-dialog.component';
 })
 export class ReviewsComponent implements OnInit {
   reviews: ReviewResult[] = [];
-
+  organizations: Organization[] = [];
+  users: UserModel[] = [];
   displayedColumns = ['referenceMonth', 'referenceYear', 'promoters', 'neutrals', 'detractors', 'total', 'nps'];
 
   filteredReviews: ReviewResult[] = [...this.reviews];
@@ -33,13 +38,37 @@ export class ReviewsComponent implements OnInit {
     { value: '12', viewValue: 'Dezembro' }
   ];
 
-  constructor(private dialog: MatDialog, private reviewService: ReviewService) {}
+  constructor(private dialog: MatDialog, 
+    private reviewService: ReviewService,
+    private organizationService: OrganizationService,
+    private userService: UserService
+    ) {}
 
   ngOnInit(): void {
-    this.loadReviews();
+    this.loadData();
   }
+
+  loadData() {
+    this.loadReviews();
+    this.loadOrganizations();
+    this.loadUsers();
+  }
+  private loadUsers() {
+    this.userService.getAllUsers().subscribe(users => {
+        if(users.users)
+            this.users = users.users;
+        });
+    }
+
+  private loadOrganizations() {
+    this.organizationService.getAllClients().subscribe(organizations => {
+        if(organizations.organizations)
+            this.organizations = organizations.organizations;
+        });
+    }
   private loadReviews() {
-    this.reviewService.getAllReviews().subscribe(reviews => {
+    this.reviewService.getAllReviews()
+    .subscribe(reviews => {
         if(reviews.reviewResults){
             this.reviews = reviews.reviewResults;
             this.filteredReviews = [...this.reviews];
@@ -57,6 +86,18 @@ export class ReviewsComponent implements OnInit {
 
   openAddReviewDialog() {
     // Implemente a lógica para abrir um diálogo de adição de avaliação
+    const dialogRef = this.dialog.open(ReviewDialogComponent, {
+        width: '600px',
+        data: { organizations: this.organizations, users: this.users}
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          // Chame o serviço para adicionar a avaliação usando result como os dados inseridos
+          console.log(result);
+          this.reviewService.addReview(result).subscribe(_ => this.loadData());
+        }
+      });
   }
 
   getRowStyle(review: ReviewResult): any {

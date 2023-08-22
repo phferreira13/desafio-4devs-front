@@ -6,6 +6,7 @@ export interface Organization {
     createdAt?: Date;
     updatedAt?: Date;
     categoryReview?: string;
+    lastReviewDate?: Date;
 }
 
 export interface OrganizationsList {

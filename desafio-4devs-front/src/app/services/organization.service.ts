@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ORGANIZATION_ADD_URL, ORGANIZATION_FILTER_BY_NAME_URL, ORGANIZATION_GET_ALL_URL } from '../constants/apiUrls.constant';
 import { Organization, OrganizationsList } from '../models/organization.model';
 
@@ -10,7 +11,7 @@ import { Organization, OrganizationsList } from '../models/organization.model';
 })
 export class OrganizationService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   getAllClients(): Observable<OrganizationsList> {
     return this.http.get<OrganizationsList>(ORGANIZATION_GET_ALL_URL);
@@ -21,7 +22,15 @@ export class OrganizationService {
     return this.http.get<OrganizationsList>(url);
   }
 
-  addClient(client: Organization): Observable<Organization> {    
-    return this.http.post<Organization>(ORGANIZATION_ADD_URL, client);
+  addClient(client: Organization){
+    return this.http.post<Organization>(ORGANIZATION_ADD_URL, client).pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.snackBar.open(error.error, 'Close', {
+              duration: 3000
+            });
+          console.error('Error adding Organization:', error);
+          return throwError(error);
+        })
+      );
   }
 }

@@ -12,6 +12,8 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -54,12 +56,14 @@ import { ReviewService } from './services/review.service';
     MatIconModule,
     MatTableModule,
     MatDialogModule,
-    MatSelectModule
+    MatSelectModule,
+    MatListModule,
+    MatDividerModule
   ],
   providers: [
     LoginService,
     OrganizationService,
-    ReviewService
+    ReviewService,
   ],
   bootstrap: [AppComponent]
 })
