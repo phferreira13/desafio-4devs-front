@@ -15,7 +15,7 @@ export class OrganizationsComponent implements OnInit {
 
   filterName = '';
   organizations: Organization[] = [];
-  displayedColumns: string[] = ['name', 'contactName', 'cnpj'];
+  displayedColumns: string[] = ['name', 'contactName', 'cnpj', 'categoryReview'];
 
   constructor(private organizationService: OrganizationService,
     private dialog: MatDialog) { }
