@@ -9,6 +9,8 @@ import { FormsModule, ReactiveFormsModule  } from '@angular/forms';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import {MatTableModule} from '@angular/material/table';
+import {MatDialogModule} from '@angular/material/dialog';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +21,7 @@ import { HomeComponent } from './components/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { OrganizationsComponent } from './components/organizations/organizations.component';
 import { DialogComponent } from './components/organizations/dialog/dialog.component';
+import { OrganizationService } from './services/organization.service';
 
 @NgModule({
   declarations: [
@@ -42,10 +45,13 @@ import { DialogComponent } from './components/organizations/dialog/dialog.compon
     HttpClientModule,
     MatTabsModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatTableModule,
+    MatDialogModule
   ],
   providers: [
-    LoginService
+    LoginService,
+    OrganizationService
   ],
   bootstrap: [AppComponent]
 })

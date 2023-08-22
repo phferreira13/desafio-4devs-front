@@ -1,17 +1,18 @@
 <div class="tab-content">
-  <button mat-raised-button color="primary" (click)="openAddDialog()">+ Adicionar</button>
+    <button mat-raised-button color="primary" class="add-button" (click)="openAddDialog()">+ Adicionar</button>
+
   <mat-form-field>
-    <input matInput type="text" placeholder="Filtrar por nome" [(ngModel)]="filterName">
+    <input matInput type="text" placeholder="Filtrar por nome" [(ngModel)]="filterName" (keyup)="applyFilter()">
   </mat-form-field>
-  <table mat-table class="mat-elevation-z8">
+  <table mat-table class="mat-elevation-z8" [dataSource]="organizations">
     <!-- Colunas da tabela -->
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef> Nome </th>
       <td mat-cell *matCellDef="let client"> {{ client.name }} </td>
     </ng-container>
-    <ng-container matColumnDef="contact">
+    <ng-container matColumnDef="contactName">
       <th mat-header-cell *matHeaderCellDef> Contato </th>
-      <td mat-cell *matCellDef="let client"> {{ client.contact }} </td>
+      <td mat-cell *matCellDef="let client"> {{ client.contactName }} </td>
     </ng-container>
     <ng-container matColumnDef="cnpj">
       <th mat-header-cell *matHeaderCellDef> CNPJ </th>
