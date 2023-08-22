@@ -46,7 +46,5 @@ export class LoginService {
       this.router.navigate(['/home']);
       return res;
     }));
-
-
   }
 }

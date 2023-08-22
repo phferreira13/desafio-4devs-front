@@ -1,0 +1,64 @@
+<!-- review-dialog.component.html -->
+<h2 mat-dialog-title>Adicionar Avaliação</h2>
+<mat-dialog-content>
+    <div>
+        <mat-form-field>
+            <mat-label>Mês de Referência</mat-label>
+            <mat-select [(ngModel)]="review.referenceMonth">
+                <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+            <input matInput placeholder="Ano de Referência" [(ngModel)]="review.referenceYear"/>
+        </mat-form-field>
+    </div>
+    <mat-form-field>
+        <mat-label>Usuário avaliador</mat-label>
+        <mat-select [(ngModel)]="review.userId" name="selectedOrganizations">
+            <mat-option *ngFor="let user of users" [value]="user.id">
+                {{ user.name }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+        <mat-label>Clientes a serem avaliados</mat-label>
+        <mat-select multiple [(ngModel)]="review.organizationReviews" name="selectedOrganizations">
+            <mat-option *ngFor="let organization of organizations" [value]="organization">
+                {{ organization.name }} - {{ organization.lastReviewDate | date:'M/d/yyyy h:mm:ss' }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div *ngIf="review.organizationReviews.length > 0">
+        <mat-list>
+            <mat-list-item *ngFor="let organization of review.organizationReviews" class="list-item">
+                <div>
+                    <p><strong>Cliente:</strong> {{ organization.name }}</p>
+                    <strong>Última Avaliação:</strong> {{ organization.lastReviewDate | date:'M/d/yyyy h:mm:ss' }}
+                </div>
+            </mat-list-item>
+        </mat-list>
+    </div>
+    <p>Percentual dos clientes selecionados: {{ getSelectedPercentage() }}%</p>
+    <div *ngIf="review.organizationReviews.length > 0">
+        <mat-divider></mat-divider>
+        <div *ngFor="let organization of review.organizationReviews">
+            <h3>{{ organization.name }}</h3>
+            <div class="form-rating">
+                <mat-form-field>
+                    <label for="rating">Probabilidade de recomendação (0-10)</label>
+                    <input id="rating" matInput [(ngModel)]="organization.rating" type="number" min="0" max="10"
+                        name="rating">
+                </mat-form-field>
+                <mat-form-field>
+                    <label for="comment">Motivo da nota</label>
+                    <textarea id="comment" matInput [(ngModel)]="organization.comment" name="comment"></textarea>
+                </mat-form-field>
+            </div>
+            <mat-divider></mat-divider>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button [mat-dialog-close]="null">Cancelar</button>
+    <button mat-button [mat-dialog-close]="review" [disabled]="!isSaveEnabled()">Salvar</button>
+</mat-dialog-actions>

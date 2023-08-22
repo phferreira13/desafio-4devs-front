@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ORGANIZATION_ADD_URL, ORGANIZATION_FILTER_BY_NAME_URL, ORGANIZATION_GET_ALL_URL } from '../constants/apiUrls.constant';
 import { Organization, OrganizationsList } from '../models/organization.model';
 
@@ -9,9 +10,8 @@ import { Organization, OrganizationsList } from '../models/organization.model';
   providedIn: 'root'
 })
 export class OrganizationService {
-  private baseUrl = 'https://localhost:7103/api'; // Base URL for API
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private snackBar: MatSnackBar) {}
 
   getAllClients(): Observable<OrganizationsList> {
     return this.http.get<OrganizationsList>(ORGANIZATION_GET_ALL_URL);
@@ -22,17 +22,15 @@ export class OrganizationService {
     return this.http.get<OrganizationsList>(url);
   }
 
-  addClient(client: Organization): Observable<Organization> {    
-    return this.http.post<Organization>(ORGANIZATION_ADD_URL, client);
-  }
-
-  updateClient(client: any): Observable<any> {
-    const url = `${this.baseUrl}/clients/${client.id}`;
-    return this.http.put<any>(url, client);
-  }
-
-  deleteClient(clientId: number): Observable<any> {
-    const url = `${this.baseUrl}/clients/${clientId}`;
-    return this.http.delete<any>(url);
+  addClient(client: Organization){
+    return this.http.post<Organization>(ORGANIZATION_ADD_URL, client).pipe(
+        catchError((error: HttpErrorResponse) => {
+          this.snackBar.open(error.error, 'Close', {
+              duration: 3000
+            });
+          console.error('Error adding Organization:', error);
+          return throwError(error);
+        })
+      );
   }
 }

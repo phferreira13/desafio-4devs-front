@@ -11,6 +11,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTableModule} from '@angular/material/table';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatSelectModule} from '@angular/material/select';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -22,6 +25,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { OrganizationsComponent } from './components/organizations/organizations.component';
 import { DialogComponent } from './components/organizations/dialog/dialog.component';
 import { OrganizationService } from './services/organization.service';
+import { ReviewsComponent } from './components/reviews/reviews.component';
+import { ReviewDialogComponent } from './components/reviews/review-dialog/review-dialog.component';
+import { ReviewService } from './services/review.service';
 
 @NgModule({
   declarations: [
@@ -29,7 +35,9 @@ import { OrganizationService } from './services/organization.service';
     LoginComponent,
     HomeComponent,
     OrganizationsComponent,
-    DialogComponent
+    DialogComponent,
+    ReviewsComponent,
+    ReviewDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -47,11 +55,15 @@ import { OrganizationService } from './services/organization.service';
     MatToolbarModule,
     MatIconModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSelectModule,
+    MatListModule,
+    MatDividerModule
   ],
   providers: [
     LoginService,
-    OrganizationService
+    OrganizationService,
+    ReviewService,
   ],
   bootstrap: [AppComponent]
 })
