@@ -9,7 +9,6 @@ import { Organization, OrganizationsList } from '../models/organization.model';
   providedIn: 'root'
 })
 export class OrganizationService {
-  private baseUrl = 'https://localhost:7103/api'; // Base URL for API
 
   constructor(private http: HttpClient) {}
 
@@ -24,15 +23,5 @@ export class OrganizationService {
 
   addClient(client: Organization): Observable<Organization> {    
     return this.http.post<Organization>(ORGANIZATION_ADD_URL, client);
-  }
-
-  updateClient(client: any): Observable<any> {
-    const url = `${this.baseUrl}/clients/${client.id}`;
-    return this.http.put<any>(url, client);
-  }
-
-  deleteClient(clientId: number): Observable<any> {
-    const url = `${this.baseUrl}/clients/${clientId}`;
-    return this.http.delete<any>(url);
   }
 }

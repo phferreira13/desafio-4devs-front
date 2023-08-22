@@ -1,0 +1,57 @@
+<div class="tab-content">
+    <button mat-raised-button color="primary" class="add-button" (click)="openAddReviewDialog()">
+      + Adicionar
+    </button>
+    
+    <div class="filter">
+      <mat-form-field>
+        <mat-label>Mês de Referência</mat-label>
+        <mat-select [(ngModel)]="selectedMonth" (selectionChange)="applyFilter()">
+          <mat-option *ngFor="let month of months" [value]="month.value">{{ month.viewValue }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Ano de Referência" [(ngModel)]="selectedYear" (keyup)="applyFilter()"/>
+      </mat-form-field>
+    </div>
+    
+    <table mat-table [dataSource]="filteredReviews" class="mat-elevation-z8">
+      <!-- Colunas da tabela -->
+    
+      <ng-container matColumnDef="referenceMonth">
+        <th mat-header-cell *matHeaderCellDef>Mês de Referência</th>
+        <td mat-cell *matCellDef="let review">{{ review.referenceMonth }}</td>
+      </ng-container>
+      <ng-container matColumnDef="referenceYear">
+        <th mat-header-cell *matHeaderCellDef>Ano de Referência</th>
+        <td mat-cell *matCellDef="let review">{{ review.referenceYear }}</td>
+      </ng-container>
+      <ng-container matColumnDef="promoters">
+          <th mat-header-cell *matHeaderCellDef>Promotores</th>
+          <td mat-cell *matCellDef="let review">{{ review.promoters }}</td>
+        </ng-container>
+        <ng-container matColumnDef="neutrals">
+          <th mat-header-cell *matHeaderCellDef>Neutros</th>
+          <td mat-cell *matCellDef="let review">{{ review.neutrals }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="detractors">
+          <th mat-header-cell *matHeaderCellDef>Detratores</th>
+          <td mat-cell *matCellDef="let review">{{ review.detractors }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="total">
+          <th mat-header-cell *matHeaderCellDef>Total</th>
+          <td mat-cell *matCellDef="let review">{{ review.total }}</td>
+        </ng-container>
+    
+        <ng-container matColumnDef="nps">
+          <th mat-header-cell *matHeaderCellDef>NPS</th>
+          <td mat-cell *matCellDef="let review">{{ review.nps }}</td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let review; columns: displayedColumns;" [ngStyle]="getRowStyle(review)"></tr>
+    </table>
+
+</div>
