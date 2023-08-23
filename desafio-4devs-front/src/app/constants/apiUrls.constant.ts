@@ -1,6 +1,6 @@
 import { environment } from '../../environments/environment';
 
-export const USER_LOGIN_URL = `${environment.api}/user/login`;
+export const USER_LOGIN_URL = `${environment.api}/auth/login`;
 export const USER_GET_ALL_URL = `${environment.api}/user`;
 export const ORGANIZATION_GET_ALL_URL = `${environment.api}/organization`;
 export const ORGANIZATION_ADD_URL = `${environment.api}/organization`;
