@@ -21,13 +21,15 @@ import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginService } from './services/login.service';
 import { HomeComponent } from './components/home/home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { OrganizationsComponent } from './components/organizations/organizations.component';
 import { DialogComponent } from './components/organizations/dialog/dialog.component';
 import { OrganizationService } from './services/organization.service';
 import { ReviewsComponent } from './components/reviews/reviews.component';
 import { ReviewDialogComponent } from './components/reviews/review-dialog/review-dialog.component';
 import { ReviewService } from './services/review.service';
+import { AuthInterceptor } from './utils/auth.interceptor';
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -64,6 +66,12 @@ import { ReviewService } from './services/review.service';
     LoginService,
     OrganizationService,
     ReviewService,
+    AuthService,
+    {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,
+        multi: true
+      }
   ],
   bootstrap: [AppComponent]
 })
